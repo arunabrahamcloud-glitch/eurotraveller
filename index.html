@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eurotraveller — Explore Europe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F7F3EE;
+    --warm-white: #FDFBF8;
+    --ink: #1C1A18;
+    --ink-mid: #3D3A35;
+    --ink-muted: #8A8580;
+    --ocean: #2A6B8A;
+    --ocean-light: #EBF3F8;
+    --sage: #5C7A5A;
+    --sage-light: #EEF3ED;
+    --sand: #C9A96E;
+    --sand-light: #FAF4EA;
+    --border: rgba(28,26,24,0.10);
+    --border-strong: rgba(28,26,24,0.18);
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--warm-white);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3rem;
+    height: 68px;
+    background: rgba(253,251,248,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    transition: background 0.3s;
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  .nav-logo span { color: var(--ocean); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--ink-mid);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--ocean); }
+
+  .nav-social {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .nav-social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 0.5px solid var(--border-strong);
+    color: var(--ink-mid);
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 14px;
+  }
+
+  .nav-social a:hover { background: var(--cream); color: var(--ocean); border-color: var(--ocean); }
+
+  .nav-social svg { width: 16px; height: 16px; fill: currentColor; }
+
+  /* HERO */
+  #home {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(28,26,24,0.2) 0%, rgba(28,26,24,0.5) 100%),
+      url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1600&q=80') center/cover no-repeat;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 3rem 5rem;
+    max-width: 800px;
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sand);
+    margin-bottom: 1.25rem;
+    padding: 6px 14px;
+    border: 0.5px solid rgba(201,169,110,0.4);
+    border-radius: 100px;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-title em { font-style: italic; color: rgba(255,255,255,0.7); }
+
+  .hero-tagline {
+    font-size: 1.0625rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.72);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    line-height: 1.65;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    background: var(--ocean);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-primary:hover { background: #1e5572; transform: translateY(-1px); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    background: transparent;
+    color: rgba(255,255,255,0.85);
+    border: 0.5px solid rgba(255,255,255,0.35);
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 400;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.55); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    right: 3rem;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .scroll-line {
+    width: 0.5px;
+    height: 48px;
+    background: rgba(255,255,255,0.3);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%,100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 0.7; transform: scaleY(0.7); }
+  }
+
+  /* SECTION COMMONS */
+  section { padding: 6rem 3rem; }
+
+  .section-inner { max-width: 1160px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ocean);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin-bottom: 1.25rem;
+  }
+
+  .section-sub {
+    font-size: 1.0625rem;
+    font-weight: 300;
+    color: var(--ink-muted);
+    max-width: 540px;
+    line-height: 1.7;
+  }
+
+  .section-header { margin-bottom: 3rem; }
+
+  /* FEATURED DESTINATIONS */
+  #destinations-preview { background: var(--cream); }
+
+  .dest-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .dest-card {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  .dest-card:hover { transform: translateY(-4px); }
+
+  .dest-card.wide {
+    grid-column: span 2;
+    aspect-ratio: 16/9;
+  }
+
+  .dest-card-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+  }
+
+  .dest-card:hover .dest-card-bg { transform: scale(1.04); }
+
+  .dest-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28,26,24,0.72) 0%, rgba(28,26,24,0.1) 50%, transparent 100%);
+  }
+
+  .dest-card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.75rem 1.5rem 1.5rem;
+  }
+
+  .dest-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sand);
+    margin-bottom: 0.4rem;
+  }
+
+  .dest-name {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+  }
+
+  .dest-desc {
+    font-size: 0.8125rem;
+    color: rgba(255,255,255,0.65);
+    font-weight: 300;
+  }
+
+  /* VIDEO SECTION */
+  #videos { background: var(--warm-white); }
+
+  .video-main {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    background: var(--ink);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .video-main iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .video-thumb {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    position: relative;
+    cursor: pointer;
+    background: var(--ink);
+  }
+
+  .video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+    opacity: 0.85;
+  }
+
+  .video-thumb:hover img { transform: scale(1.05); opacity: 1; }
+
+  .play-btn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(28,26,24,0.25);
+    transition: background 0.2s;
+  }
+
+  .video-thumb:hover .play-btn { background: rgba(42,107,138,0.4); }
+
+  .play-circle {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .play-circle svg { width: 16px; height: 16px; fill: var(--ocean); margin-left: 2px; }
+
+  .video-thumb-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0.75rem 0.875rem 0.625rem;
+    background: linear-gradient(to top, rgba(28,26,24,0.8) 0%, transparent 100%);
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.9);
+    font-weight: 400;
+  }
+
+  /* ABOUT */
+  #about { background: var(--cream); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-img-wrap {
+    position: relative;
+  }
+
+  .about-img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .about-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .about-badge {
+    position: absolute;
+    bottom: -1.5rem;
+    right: -1.5rem;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: var(--ocean);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(42,107,138,0.3);
+  }
+
+  .about-badge-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .about-badge-label { font-size: 0.75rem; opacity: 0.8; font-weight: 300; line-height: 1.3; margin-top: 4px; }
+
+  .about-quote {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ocean);
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--ocean);
+  }
+
+  .about-text { font-size: 1rem; color: var(--ink-mid); line-height: 1.75; margin-bottom: 1.25rem; }
+
+  .about-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 2rem; }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 100px;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    background: var(--warm-white);
+    color: var(--ink-mid);
+    border: 0.5px solid var(--border-strong);
+  }
+
+  .pill-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--ocean);
+    flex-shrink: 0;
+  }
+
+  /* DESTINATIONS FULL */
+  #destinations { background: var(--warm-white); }
+
+  .dest-full-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .city-card {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+
+  .city-card:hover { transform: translateY(-3px); }
+
+  .city-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.4s;
+  }
+
+  .city-card:hover .city-bg { transform: scale(1.06); }
+
+  .city-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28,26,24,0.75) 0%, rgba(28,26,24,0.05) 60%, transparent 100%);
+  }
+
+  .city-info {
+    position: absolute;
+    bottom: 0;
+    padding: 1.25rem 1rem;
+    color: #fff;
+  }
+
+  .city-country {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 3px;
+  }
+
+  .city-name {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  /* INSTAGRAM SECTION */
+  #instagram { background: var(--cream); }
+
+  .insta-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 2rem;
+  }
+
+  .insta-item {
+    aspect-ratio: 1;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .insta-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+  }
+
+  .insta-item:hover img { transform: scale(1.08); }
+
+  .insta-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(42,107,138,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .insta-item:hover .insta-overlay { opacity: 1; }
+
+  .insta-overlay svg { width: 24px; height: 24px; fill: #fff; }
+
+  .insta-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    background: var(--warm-white);
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border-strong);
+  }
+
+  .insta-handle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .insta-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .insta-icon svg { width: 22px; height: 22px; fill: #fff; }
+
+  .insta-handle-name { font-weight: 500; font-size: 0.9375rem; }
+  .insta-handle-sub { font-size: 0.8125rem; color: var(--ink-muted); }
+
+  .btn-insta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .btn-insta:hover { opacity: 0.88; }
+
+  /* MAP */
+  #map-section { background: var(--warm-white); }
+
+  .map-wrap {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 0.5px solid var(--border-strong);
+    position: relative;
+    background: #e8f4f8;
+  }
+
+  .map-svg-container {
+    width: 100%;
+    padding: 2rem;
+  }
+
+  .visited-pin {
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .visited-pin circle { transition: r 0.2s; }
+  .visited-pin:hover circle { r: 10; }
+
+  .map-legend {
+    padding: 1rem 1.5rem;
+    background: var(--warm-white);
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+    color: var(--ink-muted);
+  }
+
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  /* NEWSLETTER */
+  #newsletter { background: var(--ocean); padding: 5rem 3rem; }
+
+  .newsletter-inner {
+    max-width: 620px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .nl-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 1rem;
+  }
+
+  .nl-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 400;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+
+  .nl-sub { font-size: 1rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem; }
+
+  .nl-form { display: flex; gap: 10px; max-width: 440px; margin: 0 auto; }
+
+  .nl-input {
+    flex: 1;
+    padding: 13px 18px;
+    background: rgba(255,255,255,0.12);
+    border: 0.5px solid rgba(255,255,255,0.25);
+    border-radius: 100px;
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .nl-input::placeholder { color: rgba(255,255,255,0.45); }
+  .nl-input:focus { border-color: rgba(255,255,255,0.5); }
+
+  .nl-btn {
+    padding: 13px 24px;
+    background: var(--sand);
+    color: var(--ink);
+    border: none;
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+
+  .nl-btn:hover { opacity: 0.88; }
+
+  .nl-note { font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-top: 1rem; }
+
+  /* CONTACT */
+  #contact { background: var(--cream); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .contact-info-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  .contact-info-sub { font-size: 0.9375rem; color: var(--ink-muted); line-height: 1.7; margin-bottom: 2rem; }
+
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9375rem;
+    color: var(--ink-mid);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-link:hover { color: var(--ocean); }
+
+  .contact-link-icon {
+    width: 38px; height: 38px;
+    border-radius: var(--radius-sm);
+    background: var(--warm-white);
+    border: 0.5px solid var(--border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .contact-link:hover .contact-link-icon { background: var(--ocean-light); border-color: var(--ocean); }
+
+  .contact-link-icon svg { width: 16px; height: 16px; fill: currentColor; }
+
+  .contact-form {
+    background: var(--warm-white);
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border-strong);
+    padding: 2.5rem;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+  .form-group:last-child { margin-bottom: 0; }
+
+  label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--ink-mid);
+    letter-spacing: 0.01em;
+  }
+
+  input[type="text"], input[type="email"], textarea, select {
+    width: 100%;
+    padding: 11px 16px;
+    background: var(--cream);
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+
+  input[type="text"]:focus, input[type="email"]:focus, textarea:focus, select:focus {
+    border-color: var(--ocean);
+  }
+
+  textarea { resize: vertical; min-height: 120px; }
+
+  .form-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 0.5rem;
+  }
+
+  .form-submit:hover { background: var(--ocean); }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 0.5px solid var(--border);
+    margin-top: 2.5rem;
+  }
+
+  .stat {
+    background: var(--warm-white);
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: var(--ocean);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label { font-size: 0.8125rem; color: var(--ink-muted); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    padding: 3.5rem 3rem 2rem;
+    color: rgba(255,255,255,0.55);
+  }
+
+  .footer-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 0.5px solid rgba(255,255,255,0.1);
+    margin-bottom: 2rem;
+  }
+
+  .footer-brand-name {
+    font-family: var(--font-display);
+    font-size: 1.375rem;
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-brand-desc { font-size: 0.875rem; line-height: 1.7; margin-bottom: 1.5rem; }
+
+  .footer-socials { display: flex; gap: 10px; }
+
+  .footer-social-btn {
+    width: 38px; height: 38px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .footer-social-btn:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.3); }
+  .footer-social-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+  .footer-col-title {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+  .footer-links a {
+    font-size: 0.9375rem;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: rgba(255,255,255,0.9); }
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+  }
+
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  .fade-up:nth-child(2) { transition-delay: 0.1s; }
+  .fade-up:nth-child(3) { transition-delay: 0.2s; }
+  .fade-up:nth-child(4) { transition-delay: 0.3s; }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .dest-grid { grid-template-columns: 1fr; }
+    .dest-card.wide { grid-column: span 1; aspect-ratio: 16/9; }
+    .dest-full-grid { grid-template-columns: repeat(2, 1fr); }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-badge { right: 1rem; bottom: -1rem; width: 110px; height: 110px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .insta-grid { grid-template-columns: repeat(3, 1fr); }
+    .video-grid { grid-template-columns: 1fr 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; gap: 0.75rem; text-align: center; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-content { padding: 0 1.5rem 4rem; }
+    .hero-scroll { right: 1.5rem; }
+    #newsletter { padding: 4rem 1.5rem; }
+    .nl-form { flex-direction: column; }
+  }
+
+  @media (max-width: 600px) {
+    .dest-full-grid { grid-template-columns: repeat(2, 1fr); }
+    .insta-grid { grid-template-columns: repeat(2, 1fr); }
+    .video-grid { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-up { opacity: 1; transform: none; transition: none; }
+    .scroll-line { animation: none; }
+    .dest-card:hover { transform: none; }
+    .dest-card:hover .dest-card-bg { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">Euro<span>traveller</span></a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#contact">Collaborate</a></li>
+  </ul>
+  <div class="nav-social">
+    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://youtube.com" target="_blank" aria-label="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Est. 2019 · Europe</div>
+    <h1 class="hero-title">
+      Explore Europe<br>with <em>Eurotraveller</em>
+    </h1>
+    <p class="hero-tagline">Discover hidden gems, local culture, and unforgettable journeys — one city at a time.</p>
+    <div class="hero-actions">
+      <a href="#destinations" class="btn-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M13 6l6 6-6 6"/></svg>
+        Explore destinations
+      </a>
+
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- FEATURED DESTINATIONS PREVIEW -->
+<section id="destinations-preview">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <div class="section-label">Featured places</div>
+      <h2 class="section-title">Where the journey takes us</h2>
+      <p class="section-sub">From the canals of Amsterdam to Lisbon's tiled hilltops — every city holds a story waiting to be found.</p>
+    </div>
+    <div class="dest-grid">
+      <div class="dest-card fade-up">
+        <div class="dest-card-bg" style="background-image: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=800&q=80')"></div>
+        <div class="dest-card-overlay"></div>
+        <div class="dest-card-info">
+          <div class="dest-tag">United Kingdom</div>
+          <div class="dest-name">London</div>
+          <div class="dest-desc">Markets, museums, and a city that never sits still</div>
+        </div>
+      </div>
+      <div class="dest-card fade-up">
+        <div class="dest-card-bg" style="background-image: url('https://images.unsplash.com/photo-1509356843151-3e7d96241e11?w=800&q=80')"></div>
+        <div class="dest-card-overlay"></div>
+        <div class="dest-card-info">
+          <div class="dest-tag">Sweden</div>
+          <div class="dest-name">Stockholm</div>
+          <div class="dest-desc">Islands, design culture, and Nordic light</div>
+        </div>
+      </div>
+      <div class="dest-card fade-up" style="grid-column: 1; grid-row: 2;">
+        <div class="dest-card-bg" style="background-image: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&q=80')"></div>
+        <div class="dest-card-overlay"></div>
+        <div class="dest-card-info">
+          <div class="dest-tag">France</div>
+          <div class="dest-name">Paris</div>
+          <div class="dest-desc">Beyond the Eiffel Tower — neighbourhood cafés, secret passages, and evening light</div>
+        </div>
+      </div>
+      <div class="dest-card fade-up" style="grid-column: 2; grid-row: 2;">
+        <div class="dest-card-bg" style="background-image: url('https://images.unsplash.com/photo-1583422409516-2895a77efded?w=800&q=80')"></div>
+        <div class="dest-card-overlay"></div>
+        <div class="dest-card-info">
+          <div class="dest-tag">Spain</div>
+          <div class="dest-name">Barcelona</div>
+          <div class="dest-desc">Gaudí, Gothic Quarter, and golden beaches</div>
+        </div>
+      </div>
+      <div class="dest-card wide fade-up" style="grid-column: span 2; grid-row: 3;">
+        <div class="dest-card-bg" style="background-image: url('https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?w=1200&q=80')"></div>
+        <div class="dest-card-overlay"></div>
+        <div class="dest-card-info">
+          <div class="dest-tag">Netherlands</div>
+          <div class="dest-name">Amsterdam</div>
+          <div class="dest-desc">Canal rings, cycling culture, and world-class museums in a city built on water</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img-wrap fade-up">
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" alt="Travel creator in the mountains" loading="lazy">
+        </div>
+        <div class="about-badge">
+          <div class="about-badge-num">35</div>
+          <div class="about-badge-label">countries<br>visited</div>
+        </div>
+      </div>
+      <div class="fade-up">
+        <div class="section-label">The story</div>
+        <h2 class="section-title">Wandering with purpose</h2>
+        <blockquote class="about-quote">"I left my office job with a one-way ticket to Lisbon. That was five years ago."</blockquote>
+        <p class="about-text">What started as a solo backpacking trip turned into a calling. I spend my days exploring markets at 7am, getting lost in medieval streets, and sharing honest, unfiltered travel stories with a community that believes the best experiences happen when you slow down and look properly.</p>
+        <p class="about-text">I'm not here to show you the Instagram-perfect version of Europe. I want to show you the real thing — the Sunday flea markets, the local trattorias with no English menus, the train journeys that take twice as long but show you everything.</p>
+        <div class="about-pills">
+          <span class="pill"><span class="pill-dot"></span>Slow travel</span>
+          <span class="pill"><span class="pill-dot"></span>Local culture</span>
+          <span class="pill"><span class="pill-dot"></span>Authentic food</span>
+          <span class="pill"><span class="pill-dot"></span>Hidden gems</span>
+          <span class="pill"><span class="pill-dot"></span>Cinematic storytelling</span>
+        </div>
+        <div class="stats-bar">
+          <div class="stat">
+            <div class="stat-num">180k</div>
+            <div class="stat-label">Instagram followers</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">95k</div>
+            <div class="stat-label">YouTube subscribers</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">5 yrs</div>
+            <div class="stat-label">Creating content</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESTINATIONS FULL GRID -->
+<section id="destinations">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <div class="section-label">City guides</div>
+      <h2 class="section-title">Where to next?</h2>
+      <p class="section-sub">Each city guide covers where to eat, sleep, and wander — no tourist traps, just the places worth your time.</p>
+    </div>
+    <div class="dest-full-grid fade-up">
+      <div class="city-card">
+        <div class="city-bg" style="background-image: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=500&q=75')"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-country">United Kingdom</div>
+          <div class="city-name">London</div>
+        </div>
+      </div>
+      <div class="city-card">
+        <div class="city-bg" style="background-image: url('https://images.unsplash.com/photo-1509356843151-3e7d96241e11?w=500&q=75')"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-country">Sweden</div>
+          <div class="city-name">Stockholm</div>
+        </div>
+      </div>
+      <div class="city-card">
+        <div class="city-bg" style="background-image: url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=500&q=75')"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-country">France</div>
+          <div class="city-name">Paris</div>
+        </div>
+      </div>
+      <div class="city-card">
+        <div class="city-bg" style="background-image: url('https://images.unsplash.com/photo-1583422409516-2895a77efded?w=500&q=75')"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-country">Spain</div>
+          <div class="city-name">Barcelona</div>
+        </div>
+      </div>
+      <div class="city-card">
+        <div class="city-bg" style="background-image: url('https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?w=500&q=75')"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-country">Netherlands</div>
+          <div class="city-name">Amsterdam</div>
+        </div>
+      </div>
+      <div class="city-card">
+        <div class="city-bg" style="background-image: url('https://images.unsplash.com/photo-1555881400-74d7acaacd8b?w=500&q=75')"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-country">Portugal</div>
+          <div class="city-name">Lisbon</div>
+        </div>
+      </div>
+      <div class="city-card">
+        <div class="city-bg" style="background-image: url('https://images.unsplash.com/photo-1516738901171-8eb4fc13bd20?w=500&q=75')"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-country">Czech Republic</div>
+          <div class="city-name">Prague</div>
+        </div>
+      </div>
+      <div class="city-card">
+        <div class="city-bg" style="background-image: url('https://images.unsplash.com/photo-1549144511-f099e773c147?w=500&q=75')"></div>
+        <div class="city-overlay"></div>
+        <div class="city-info">
+          <div class="city-country">Austria</div>
+          <div class="city-name">Vienna</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section id="instagram">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <div class="section-label">Daily dispatches</div>
+      <h2 class="section-title">Follow along on Instagram</h2>
+      <p class="section-sub">Behind-the-scenes moments, golden-hour shots, and stories from the road — posted daily.</p>
+    </div>
+    <div class="insta-grid fade-up">
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=300&q=75" alt="Eiffel Tower Paris" loading="lazy">
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1509356843151-3e7d96241e11?w=300&q=75" alt="Stockholm" loading="lazy">
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&q=75" alt="Mountain view" loading="lazy">
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=300&q=75" alt="London" loading="lazy">
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      </div>
+      <div class="insta-item">
+        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=300&q=75" alt="Road trip" loading="lazy">
+        <div class="insta-overlay"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      </div>
+    </div>
+    <div class="insta-cta fade-up">
+      <div class="insta-handle">
+        <div class="insta-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </div>
+        <div>
+          <div class="insta-handle-name">@eurotraveller</div>
+          <div class="insta-handle-sub">180,000 followers · daily posts</div>
+        </div>
+      </div>
+      <a href="https://instagram.com" target="_blank" class="btn-insta">Follow on Instagram</a>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <div class="newsletter-inner fade-up">
+    <div class="nl-eyebrow">Stay in the loop</div>
+    <h2 class="nl-title">The Eurotraveller letter</h2>
+    <p class="nl-sub">Monthly travel notes: itineraries, hidden finds, and tips you won't see in the feed.</p>
+    <div class="nl-form">
+      <input type="email" class="nl-input" placeholder="your@email.com" aria-label="Email address">
+      <button class="nl-btn">Subscribe</button>
+    </div>
+    <p class="nl-note">No spam, ever. Unsubscribe any time.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="fade-up">
+        <div class="section-label">Work together</div>
+        <h2 class="contact-info-title">Let's collaborate</h2>
+        <p class="contact-info-sub">Open to brand partnerships, tourism board collaborations, and creative projects that align with authentic European travel storytelling.</p>
+        <div class="contact-links">
+          <a href="mailto:hello@eurotraveller.com" class="contact-link">
+            <div class="contact-link-icon">
+              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </div>
+            hello@eurotraveller.com
+          </a>
+          <a href="https://instagram.com" target="_blank" class="contact-link">
+            <div class="contact-link-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </div>
+            @eurotraveller
+          </a>
+          <a href="https://youtube.com" target="_blank" class="contact-link">
+            <div class="contact-link-icon">
+              <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+            </div>
+            Eurotraveller on YouTube
+          </a>
+        </div>
+      </div>
+      <div class="contact-form fade-up">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Your name</label>
+            <input type="text" id="name" placeholder="Alex Johnson">
+          </div>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" id="email" placeholder="alex@company.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="collab-type">Type of collaboration</label>
+          <select id="collab-type">
+            <option value="">Select one...</option>
+            <option>Brand partnership</option>
+            <option>Tourism campaign</option>
+            <option>Sponsored content</option>
+            <option>Media & press</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Tell me about your project</label>
+          <textarea id="message" placeholder="A bit about the brand, the campaign, and what you have in mind..."></textarea>
+        </div>
+        <button class="form-submit">Send message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">Eurotraveller</div>
+        <p class="footer-brand-desc">Travel content from the heart of Europe. City guides, cinematic films, and honest stories from the road.</p>
+        <div class="footer-socials">
+          <a href="https://instagram.com" target="_blank" class="footer-social-btn" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://youtube.com" target="_blank" class="footer-social-btn" aria-label="YouTube">
+            <svg viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Explore</div>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#destinations">Destinations</a></li>
+          <li><a href="#instagram">Instagram</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Connect</div>
+        <ul class="footer-links">
+          <li><a href="#contact">Collaborate</a></li>
+          <li><a href="#newsletter">Newsletter</a></li>
+          <li><a href="mailto:hello@eurotraveller.com">Email</a></li>
+          <li><a href="https://instagram.com" target="_blank">Instagram</a></li>
+          <li><a href="https://youtube.com" target="_blank">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Eurotraveller. All rights reserved.</span>
+      <span style="font-size:0.8125rem;">Made with intention, wandered with purpose.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  document.querySelector('.nl-btn').addEventListener('click', function() {
+    const input = document.querySelector('.nl-input');
+    if (input.value && input.value.includes('@')) {
+      this.textContent = 'You\'re in ✓';
+      this.style.background = 'rgba(255,255,255,0.25)';
+      this.style.color = '#fff';
+      input.value = '';
+      input.placeholder = 'Thanks for subscribing!';
+    } else {
+      input.style.borderColor = 'rgba(255,120,80,0.6)';
+      setTimeout(() => input.style.borderColor = 'rgba(255,255,255,0.25)', 1800);
+    }
+  });
+
+  document.querySelector('.form-submit').addEventListener('click', function() {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    if (name && email) {
+      this.textContent = 'Message sent — I\'ll be in touch soon!';
+      this.style.background = '#2A6B8A';
+      this.disabled = true;
+    }
+  });
+</script>
+</body>
+</html>
